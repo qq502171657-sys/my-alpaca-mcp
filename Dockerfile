@@ -14,10 +14,10 @@ RUN uv pip install --system -r pyproject.toml
 # 复制整个项目
 COPY . .
 
-# 关键修正：设置 PYTHONPATH 包含 src
+# 1. 确保 PYTHONPATH 包含 src 目录，这样才能找到 alpaca_mcp_server 包
 ENV PYTHONPATH=/app/src
 
 EXPOSE 8000
 
-# 关键修正：使用完整的文件路径
-CMD ["python", "src/alpaca_mcp_server/server.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8000"]
+# 2. 关键：使用 -m 模块化启动，不要直接运行文件路径
+CMD ["python", "-m", "alpaca_mcp_server.server", "--transport", "sse", "--host", "0.0.0.0", "--port", "8000"]
