@@ -5,5 +5,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 ENV PYTHONPATH=/app
 EXPOSE 8000
-# 扁平化后，文件直接在根目录，路径最严谨
+# 扁平化后，直接运行根目录下的 server.py
 CMD ["python", "server.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8000"]
