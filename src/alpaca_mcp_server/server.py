@@ -3254,4 +3254,12 @@ if __name__ == "__main__":
         )
     except Exception as e:
         print(f"Error starting server: {e}", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(1)# 保底健康检查代码
+try:
+    from starlette.responses import JSONResponse
+    @app.route("/")
+    async def health_check(request):
+        return JSONResponse({"status": "ok", "message": "Alpaca MCP Server is running"})
+except NameError:
+    # 如果找不到 app 变量，说明可能在其他文件中定义
+    pass
