@@ -3263,3 +3263,17 @@ try:
 except NameError:
     # 如果找不到 app 变量，说明可能在其他文件中定义
     pass
+# --- 强制添加健康检查路由 ---
+try:
+    # 尝试从程序中获取 app 对象并注册根路径
+    import sys
+    from starlette.responses import JSONResponse
+    
+    # 获取当前模块中定义的 app
+    current_module = sys.modules[__name__]
+    if hasattr(current_module, 'app'):
+        @current_module.app.route("/")
+        async def health_check(request):
+            return JSONResponse({"status": "ok", "message": "MCP Server is live"})
+except Exception:
+    pass
